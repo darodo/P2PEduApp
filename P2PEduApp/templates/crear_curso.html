@@ -14,7 +14,8 @@
         <input type="checkbox" id="nav-check">
         <div class="nav-header">
           <div class="nav-title">
-            <img src="" alt="Logo">
+            <a href="{% url 'home' %}">Inicio</a>
+           <!-- <img src="" alt="Logo"> -->
           </div>
         </div>
         <div class="nav-btn">
@@ -28,7 +29,7 @@
         <div class="nav-links">
          <div class="text">
             {{ user.carne }}
-            <img class="img" src="{% static 'images/' %}{{ selected_image }}" alt="Imagen seleccionada" style="width: 2rem; ">
+           <!-- <img class="img" src="{% static 'images/' %}{{ selected_image }}" alt="Imagen seleccionada" style="width: 2rem; "> -->
          </div>
           
         </div>
@@ -36,7 +37,6 @@
     <main>
       <section class="title">
         <h1>Crear Curso</h1>
-
         <form action="{% url 'registrar_curso'%}" method="post">
             {% csrf_token %}
             <label> Nombre del Curso: </label>

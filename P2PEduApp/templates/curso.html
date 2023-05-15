@@ -16,6 +16,7 @@
       <div class="nav-header">
         <div class="nav-title">
           <img src="" alt="Logo">
+          <a href="{% url 'home' %}">Inicio</a>
         </div>
       </div>
       <div class="nav-btn">
@@ -27,10 +28,8 @@
       </div>
       
       <div class="nav-links">
-      
-      
-        
       {% if usuario.carne == curso.votan  %} <! ––« Verificacion si el carne del usuario es el mismo del votan con esto se activan las funciones adicionales«––>
+      <a href="{% url 'votacion' %}">Votación</a>
       <a href="upload" target="_blank">Reportes</a>
       <a href="upload" target="_blank">Asignaciones</a>
       <a href="cargar_archivo" target="_blank">Material</a>
@@ -38,7 +37,7 @@
       {% else %}
       <a href="upload" target="_blank">Calificaciones</a>
       {% endif %}
-        
+      
 
         <button class="boton">
           Exportar
@@ -60,10 +59,6 @@
     <section>
       <nav>
         <a href="sync_data">Sincronizar</a>
-        <ul>
-          <li><a href="crear_foro">Crear Foro</a></li>
-          <li><a href="">Exportar Curso</a></li>
-        </ul>
       </nav>
       
       <article>

@@ -2,9 +2,16 @@ import os
 import json
 import hashlib
 
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 #Importacion de los scripts de models (Manipulacion de los JSON)
 from P2PEduApp.models import *
+from django.views import View
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import Pregunta
 
 def welcome(request):
 
@@ -89,3 +96,49 @@ def cargar_archivo(request):
 				f.write(chunk)
 		return render(request, 'cargar_archivo.html')
 	return render(request, 'cargar_archivo.html')
+    
+def crearCurso(request):
+    return render(request, 'crearCurso.html')
+
+class CrearCursoView(View):
+    def get(self, request):
+        return render(request, 'crear_curso.html')
+
+def exportar_usuario(request):
+    user = request.user
+    data = {
+        'carne': user.carne,
+        'name': user.name,
+        'uid': str(user.uid),
+    }
+    return JsonResponse(data)
+
+def votacion(request):
+    return render(request, 'votacion.html')
+
+def crear_votacion(request):
+    if request.method == 'POST':
+        pregunta = request.POST.get('pregunta')
+        opciones = request.POST.get('opciones')
+        opciones = opciones.split(',')
+        preguntas = request.session.get('preguntas', {})
+        preguntas[pregunta] = opciones
+        request.session['preguntas'] = preguntas
+    else:
+        preguntas = request.session.get('preguntas', {})
+    
+    # Agregar consulta para obtener las preguntas del usuario
+    preguntas_usuario = Pregunta.objects.filter(usuario=request.user)  # Filtrar por el usuario actual
+    
+    # Agregar las preguntas del usuario al contexto
+    context = {
+        'preguntas': preguntas,
+        'preguntas_usuario': preguntas_usuario,
+    }
+    
+    return render(request, 'crear_votacion.html', context)
+
+
+
+    
+	

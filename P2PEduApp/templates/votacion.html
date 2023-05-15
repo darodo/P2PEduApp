@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votación</title>
+    {% load static %}  
+    <link rel="stylesheet" href="{% static 'css/styles.css'%}"/>
+    <link href='https://fonts.googleapis.com/css?family=Noto Sans' rel='stylesheet'>
+    <link rel="stylesheet" type="text/css" href="{% static  'css/boton.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+    <div class="nav">
+      <input type="checkbox" id="nav-check">
+      <div class="nav-header">
+        <div class="nav-title">
+       <!--   <img src="" alt="Logo"> -->
+          <a href="{% url 'home' %}">Inicio</a>
+        </div>
+      </div>
+      <div class="nav-btn">
+        <label for="nav-check">
+          <span></span>
+          <span></span>
+          <span></span>
+        </label>
+      </div>
+      
+      <div class="nav-links">
+      {% if usuario.carne == curso.votan  %} <! ––« Verificacion si el carne del usuario es el mismo del votan con esto se activan las funciones adicionales«––>
+    <!--  <a href="upload" target="_blank">Reportes</a>
+      <a href="upload" target="_blank">Asignaciones</a>
+      <a href="cargar_archivo" target="_blank">Material</a> -->
+      <!--<a href="{% url 'curso' %}">Volver</a>-->
+      {% else %}
+      <a href="upload" target="_self">Calificaciones</a>
+      {% endif %}
+
+      </div>
+  </div>
+    <header>
+      <div class="text">
+        {{ usuario.carne }}
+      <!--  <img class="img" src="{% static 'images/' %}{{ selected_image }}" alt="Imagen seleccionada" style="width: 2rem; "> -->
+    </div>
+      <div id="carnet">{{user.name}}</div>
+      <div id="carnet">{{user.carne}}</div>
+     <!-- <div id="carnet">Nombre del Curso: {{curso.nombre_curso}}</div> -->
+      {{curso.votan}}
+    </header>
+    
+    <section>
+      <nav>
+       <!-- <a href="sync_data">Sincronizar</a> -->
+
+       <div class="alert alert-info alert-dismissible fade in">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        <strong></strong> Hay una votación en curso.
+      </div>
+      
+<!-- Modal para crear la votación -->
+<div class="container">
+  <!-- Trigger the modal with a button -->
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Crear votacion </button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Crear votación</h4>
+        </div>
+        <div class="modal-body">
+          {% if votacion_en_curso %} <!-- Condición para mostrar la alerta si hay una votación en curso -->
+            <div class="alert alert-info alert-dismissible fade in">
+              <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+              <strong>Hay una votación en curso.</strong>
+            </div>
+          {% endif %}
+          <form method="post" action="{% url 'crear_votacion' %}">
+            {% csrf_token %}
+            <div class="form-group">
+              <label for="pregunta">Pregunta:</label>
+              <input type="text" class="form-control" id="pregunta" name="pregunta" placeholder="Ingrese su pregunta">
+            </div>
+            <div class="form-group">
+              <label for="opciones">Opciones:</label>
+              {% for i in "12345"|make_list %}
+              <input type="text" class="form-control" id="opcion_{{ i }}" name="opcion_{{ i }}" placeholder="Ingrese una opción">
+              {% endfor %}
+            </div>
+            <button type="submit" class="btn btn-primary">Crear</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="preguntasModal" tabindex="-1" role="dialog" aria-labelledby="preguntasModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="preguntasModalLabel">Preguntas realizadas</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <ul>
+                  {% for pregunta in preguntas_usuario %}
+                  <li>{{ pregunta.titulo }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="preguntasModal" tabindex="-1" role="dialog" aria-labelledby="preguntasModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="preguntasModalLabel">Mis preguntas</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <ul>
+                  {% for pregunta in preguntas_usuario %}
+                  <li>{{ pregunta.titulo }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+<!-- Botón para abrir el modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#preguntasModal">
+  Preguntas
+</button>
+
+<div class="modal fade" id="preguntasModal" tabindex="-1" role="dialog" aria-labelledby="preguntasModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="preguntasModalLabel">Mis preguntas</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+              <ul>
+                  {% for pregunta in preguntas %}
+                  <li>{{ pregunta.titulo }}</li>
+                  {% endfor %}
+              </ul>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+      </nav>
+      
+      <article>
+        <div>
+          {% for clave, valor in datos.items %}
+          <section class="forum_select">
+            <div class="forum_box">
+              
+              <svg style="padding:center;" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="150" height="150" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2D459B" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
+                <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
+              </svg>
+              <span>{{ valor.name }}</span>
+            </div>
+          </section>  
+          {% endfor %}
+        </div>
+        <br></br>
+    
+
+    </body>
+</html>

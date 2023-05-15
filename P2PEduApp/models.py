@@ -3,7 +3,8 @@ import json
 import shutil
 from P2PEduApp.settings import BASE_DIR
 import random
-
+from django.db import models
+from django.contrib.auth.models import User
 
 #Carga de los datos json
 def cargar_datos_json():
@@ -62,3 +63,10 @@ def get_random_image():
     img_path = os.path.join(img_dir, img_name)
     return img_path, img_name
 
+class Pregunta(models.Model):
+    titulo = models.CharField(max_length=255)
+    opciones = models.TextField()
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.titulo

@@ -1,0 +1,36 @@
+/* Estilos para el formulario de votación */
+form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  form h2 {
+    margin-top: 0;
+  }
+  
+  form p {
+    margin-bottom: 1em;
+  }
+  
+  form input[type="radio"] {
+    margin-bottom: 0.5em;
+  }
+  
+  form label {
+    display: inline-block;
+    margin-bottom: 0.5em;
+  }
+  
+  form button[type="submit"] {
+    margin-top: 1em;
+    padding: 0.5em 1em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  form button[type="submit"]:hover {
+    background-color: #3e8e41;
+  }
+  

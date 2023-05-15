@@ -14,7 +14,7 @@
         <input type="checkbox" id="nav-check">
         <div class="nav-header">
           <div class="nav-title">
-            <img src="" alt="Logo">
+          <!--  <img src="" alt="Logo"> -->
           </div>
         </div>
         <div class="nav-btn">
@@ -31,12 +31,9 @@
             <img class="img" src="{% static 'images/' %}{{ selected_image }}" alt="Imagen seleccionada" style="width: 2rem; ">
          </div>
          
-          <a href="crear_curso" target="_blank">Crear Curso</a>
-
-          <button class="boton">
-            Exportar Usuario
-          </button>
-          
+         <a href="{% url 'crear_curso' %}">Crear Curso</a>
+         <button onclick="exportUser()">Exportar usuario</button>
+         <script src="{% static 'js/export.js' %}"></script>
         </div>
     </div>
     <main>
@@ -47,7 +44,7 @@
         {% endif %}</h1>
 
         <form action="{% url 'home'%}" method="post">
-          <button type="submit" style="margin-right: 10;">
+          <button type="submit" style="margin-right:  px; margin-top: 100px;">
               {% csrf_token %}
               Sincronizar Cursos
           </button>
@@ -57,8 +54,6 @@
       <section class="home">
         <div class="course_container">
           
-          
-
           <form action="{% url 'curso'%}" method="post">
             {% csrf_token %}
             {% for clave, valor in datos.items %}

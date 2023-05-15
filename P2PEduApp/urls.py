@@ -18,12 +18,19 @@ from django.urls import path
 from P2PEduApp.views import *
 
 urlpatterns = [
+    path('', welcome, name='welcome'), # esta es la nueva ruta raíz
+    path('login/', login, name='login'),  
     path('admin/', admin.site.urls),
-    path('welcome', welcome, name="welcome"),
-    path('login', login, name="login"),
-    path('home', home, name="home"),
-    path('curso', curso, name="curso"),
-    path('crear_curso',crear_curso,name="crear_curso"),
-    path('registrar_curso',registrar_curso,name="registrar_curso"),
-    path('cargar_archivo', cargar_archivo, name='cargar_archivo')
+    path('welcome/', welcome, name='welcome'),
+    path('home/', home, name='home'),
+    path('curso/', curso, name='curso'),
+    path('exportar_usuario/', exportar_usuario, name='exportar_usuario'),
+    #path('crear_curso/', crear_curso, name='crear_curso'),
+    path('crear_curso/', CrearCursoView.as_view(), name='crear_curso'),
+    #path('crearCurso/', crearCurso, name='crearCurso'),
+    path('registrar_curso/', registrar_curso, name='registrar_curso'),
+    path('cargar_archivo/', cargar_archivo, name='cargar_archivo'),
+    path('votacion/', votacion, name='votacion'),
+    path('crear_votacion/', crear_votacion, name='crear_votacion')
 ]
+
